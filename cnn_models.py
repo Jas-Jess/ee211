@@ -518,6 +518,9 @@ def multiscale3(features, labels, mode):
   # MNIST images are 28x28 pixels, and have one color channel
   input_layer = tf.reshape(features["x"], [-1, 28, 28, 1])
 
+  # Get batch size for future inputs
+  batchsize = 128
+
   # Convolutional Layer #1
   # Computes 32 features using a 5x5 filter with ReLU activation.
   # Padding is added to preserve width and height.
@@ -562,12 +565,15 @@ def multiscale3(features, labels, mode):
 
   # Add dropout operation; 0.6 probability that element will be kept
   dropout1 = tf.layers.dropout(
-      inputs=pool1, rate=0.5, training=mode == tf.estimator.ModeKeys.TRAIN)
+      inputs=pool1, rate=0.5, training=mode == tf.estimator.ModeKeys.TRAIN, noise_shape = [batchsize, 1, 1, 1])
 
   # Flatten tensor into a batch of vectors
   # Input Tensor Shape: [batch_size, 14, 14, 32]
   # Output Tensor Shape: [batch_size, 14 * 14 * 32]
-  pool1_flat = tf.reshape(dropout1, [-1, 14 * 14 * 32])
+  if(mode == tf.estimator.ModeKeys.TRAIN):
+    pool1_flat = tf.reshape(dropout1, [-1, 14 * 14 * 32])
+  else:
+    pool1_flat = tf.reshape(pool1, [-1, 14 * 14 * 32])
 
   # Convolutional Layer #3
   # Computes 32 features using a 5x5 filter with ReLU activation.
@@ -601,13 +607,16 @@ def multiscale3(features, labels, mode):
   
   # Add dropout operation; 0.6 probability that element will be kept
   dropout2 = tf.layers.dropout(
-      inputs=pool2, rate=0.5, training=mode == tf.estimator.ModeKeys.TRAIN)
+      inputs=pool2, rate=0.5, training=mode == tf.estimator.ModeKeys.TRAIN, noise_shape = [batchsize, 1, 1, 1])
 
 
   # Flatten tensor into a batch of vectors
   # Input Tensor Shape: [batch_size, 7, 7,32]
   # Output Tensor Shape: [batch_size, 7 * 7 * 32]
-  pool2_flat = tf.reshape(dropout2, [-1, 7 * 7 * 64])
+  if(mode == tf.estimator.ModeKeys.TRAIN):
+    pool2_flat = tf.reshape(dropout2, [-1, 7 * 7 * 64])
+  else:
+    pool2_flat = tf.reshape(pool2, [-1, 7 * 7 * 64])
 
   # Convolutional Layer #3 
   # Computes 32 features using a 5x5 filter with ReLU activation.
@@ -638,16 +647,19 @@ def multiscale3(features, labels, mode):
   # Input Tensor Shape: [batch_size, 7, 7, 128]
   # Output Tensor Shape: [batch_size, 7, 7, 64]
   pool3 = tf.layers.max_pooling2d(inputs=conv7, pool_size=[2, 2], strides=2)
-  
+
   # Add dropout operation; 0.6 probability that element will be kept
   dropout3 = tf.layers.dropout(
-      inputs=pool3, rate=0.5, training=mode == tf.estimator.ModeKeys.TRAIN)
+      inputs=pool3, rate=0.5, training=mode == tf.estimator.ModeKeys.TRAIN, noise_shape = [batchsize, 1, 1, 1])
 
 
   # Flatten tensor into a batch of vectors
   # Input Tensor Shape: [batch_size, 3, 3,128]
   # Output Tensor Shape: [batch_size, 3 * 3 * 128]
-  pool3_flat = tf.reshape(dropout3, [-1, 3 * 3 * 128])
+  if(mode == tf.estimator.ModeKeys.TRAIN):
+    pool3_flat = tf.reshape(dropout3, [-1, 3 * 3 * 128])
+  else:
+    pool3_flat = tf.reshape(pool3, [-1, 3 * 3 * 128])
   
   # Combine all the pixels to 2D Tensors
   combined = tf.concat([pool1_flat, pool2_flat, pool3_flat], axis = 1)

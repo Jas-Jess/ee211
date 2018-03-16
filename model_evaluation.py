@@ -34,7 +34,7 @@ def main(unused_argv):
   #     model_fn=cnn_models.multiscale2, model_dir="./Models/multiscale2")
 
   mnist_classifier = tf.estimator.Estimator(
-      model_fn=cnn_models.multiscale4, model_dir="./Models/multiscale5")
+      model_fn=cnn_models.multiscale3, model_dir="./Models/multiscale5")
 
   # Set up logging for predictions
   # Log the values in the "Softmax" tensor with label "probabilities"

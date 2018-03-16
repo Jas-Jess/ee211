@@ -63,7 +63,7 @@ def main(unused_argv):
 
   #CHANGE ME to model you want to look at
   mnist_classifier = tf.estimator.Estimator(
-      model_fn=cnn_models.deeper, model_dir="./Models/deeper")
+      model_fn=cnn_models.multiscale3, model_dir="./Models/multiscale5")
 
   # Evaluate the model and print results
   eval_input_fn = tf.estimator.inputs.numpy_input_fn(
@@ -91,7 +91,7 @@ def main(unused_argv):
   df = pd.DataFrame(cm)
 
   ## save to xlsx file
-  filepath = './Confusion Matrix/deeper_confusion_matrix.xlsx'
+  filepath = './Confusion Matrix/ms3_confusion_matrix.xlsx'
 
   df.to_excel(filepath, index=False)
 
