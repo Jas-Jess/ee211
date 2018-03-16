@@ -11,6 +11,7 @@ from sklearn.metrics import confusion_matrix
 import itertools
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
+from sklearn.metrics import average_precision_score
 
 tf.logging.set_verbosity(tf.logging.INFO)
 def plot_confusion_matrix(cm, classes,
@@ -60,8 +61,9 @@ def main(unused_argv):
   eval_data = mnist.test.images  # Returns np.array
   eval_labels = np.asarray(mnist.test.labels, dtype=np.int32)
 
+  #CHANGE ME to model you want to look at
   mnist_classifier = tf.estimator.Estimator(
-      model_fn=cnn_models.multiscale4, model_dir="./Models/multiscale4")
+      model_fn=cnn_models.deeper, model_dir="./Models/deeper")
 
   # Evaluate the model and print results
   eval_input_fn = tf.estimator.inputs.numpy_input_fn(
@@ -80,18 +82,18 @@ def main(unused_argv):
   # print (pred_list)
 
   cm = confusion_matrix(eval_labels, np.asarray(pred_list))
-  classes = ['A', 'B','C','D','E','F','G','H','I','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y']
+  # classes = ['A', 'B','C','D','E','F','G','H','I','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y']
 
-  plt.figure(1)
-  plot_confusion_matrix(cm, classes = classes, normalize=False)
+  # plt.figure(1)
+  # plot_confusion_matrix(cm, classes = classes, normalize=False)
   
-  # ## convert your array into a dataframe
-  # df = pd.DataFrame(cm)
+  ## convert your array into a dataframe
+  df = pd.DataFrame(cm)
 
-  # ## save to xlsx file
-  # filepath = 'confusion_matrix.xlsx'
+  ## save to xlsx file
+  filepath = './Confusion Matrix/deeper_confusion_matrix.xlsx'
 
-  # df.to_excel(filepath, index=False)
+  df.to_excel(filepath, index=False)
 
   
 

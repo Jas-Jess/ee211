@@ -10,11 +10,7 @@ We implemented our own hand detection. However, our initial data set was too sma
 
 ## Github Repo
 This github repo includes our CNN code & hand dection code. We have the following folders/files:
-1. __Confusion matrix:___ This folder has the confusion matrix for our best model (Multiscale4)
-    
-    a. __confusion_matrix.xlsx__ excel version of the confusion matrix
-    
-    b. __ConfusionMatrix.png__ Image version of the confusion matrix. 
+1. __Confusion matrix:___ This folder has the confusion matrix for each model. In the excel sheets, we also manually computed the precision and recall for each letter and the overall accuarcy for the model. 
 
 2. __Data:__: Dataset used for CNN models
     
