@@ -6,7 +6,7 @@ The topic of Human Computer Interaction (HCI) studies and develops computer desi
 
 Most applications require a two-dimensional plus depth camera. The project creates a hand gesture recognition system using two-dimensional static images, without needing a depth map. We implement different convolutional neural network (CNN) models to classify each hand gesture according to American Sign Language (ASL). To increase the accuracy of recognizing the ASL letter, we pass a training set of data through multiple models. The best model is evaluated based on accuracy, loss, recall, and precision.
 
-We implemented our own hand detection. However, our initial data set was too small to run on our CNN models. Therefore, we had to look for another data set to use in the CNN models. 
+Initially, we performed our own preprocessing, but found the data set to be too small. We were unable to find a usable, large data set that wasn’t preprocessed. Since CNN models require huge data sets to produce accurate results, we used an already preprocessed data set for the CNN models. For this project, preprocessing the raw images result in 28x28 grayscale images that are cropped to only include the hand.
 
 ## Github Repo
 This github repo includes our CNN code & hand dection code. We have the following folders/files:
